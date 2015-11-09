@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+case "$DOKKU_DISTRO" in
+  debian)
+    echo "%dokku ALL=(ALL) NOPASSWD:/usr/sbin/invoke-rc.d nginx start, /usr/sbin/invoke-rc.d nginx sttop" > /etc/sudoers.d/dokku-letsencrypt
+    ;;
+
+  ubuntu)
+    echo "%dokku ALL=(ALL) NOPASSWD:/etc/init.d/nginx start, /etc/init.d/nginx stop" > /etc/sudoers.d/dokku-letsencrypt
+    ;;
+
+  opensuse)
+    echo "%dokku ALL=(ALL) NOPASSWD:/sbin/service nginx start, /sbin/service nginx stop" > /etc/sudoers.d/dokku-letsencrypt
+    ;;
+esac
+
+chmod 0440 /etc/sudoers.d/dokku-letsencrypt
