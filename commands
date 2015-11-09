@@ -21,7 +21,7 @@ start_nginx() {
 stop_nginx() {
   case "$DOKKU_DISTRO" in
     debian)
-      sudo /usr/sbin/invoke-rc.d nginx stop> /dev/null
+      sudo /usr/sbin/invoke-rc.d nginx stop > /dev/null
       ;;
 
     ubuntu)
