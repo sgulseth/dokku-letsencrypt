@@ -51,4 +51,12 @@ case "$1" in
     sudo chown -hR dokku:dokku "$DOKKU_ROOT/$APP/tls/"
     nginx_build_config $APP
     ;;
+  help | letsencrypt:help)
+    cat && cat<<EOF
+        letsencrypt:add <app> <domain>, generate certificate for <domain> and configure nginx with it"
+EOF
+    ;;
+  *)
+    exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    ;;
 esac
