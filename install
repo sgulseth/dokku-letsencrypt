@@ -3,11 +3,11 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 case "$DOKKU_DISTRO" in
   debian)
-    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /usr/sbin/invoke-rc.d nginx start, /usr/sbin/invoke-rc.d nginx sttop" > /etc/sudoers.d/dokku-letsencrypt
+    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /usr/sbin/invoke-rc.d nginx start, /usr/sbin/invoke-rc.d nginx stop" > /etc/sudoers.d/dokku-letsencrypt
     ;;
 
   ubuntu)
-    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /etc/init.d/nginx start, /etc/init.d/nginx stop" > /etc/sudoers.d/dokku-letsencrypt
+    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /sbin/service nginx" > /etc/sudoers.d/dokku-letsencrypt
     ;;
 
   opensuse)

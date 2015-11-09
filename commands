@@ -3,38 +3,6 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
 source "$PLUGIN_AVAILABLE_PATH/nginx-vhosts/functions"
 
-start_nginx() {
-  case "$DOKKU_DISTRO" in
-    debian)
-      sudo /usr/sbin/invoke-rc.d nginx start > /dev/null
-      ;;
-
-    ubuntu)
-      sudo /etc/init.d/nginx start > /dev/null
-      ;;
-
-    opensuse)
-      sudo /sbin/service nginx start > /dev/null
-      ;;
-  esac
-}
-
-stop_nginx() {
-  case "$DOKKU_DISTRO" in
-    debian)
-      sudo /usr/sbin/invoke-rc.d nginx stop > /dev/null
-      ;;
-
-    ubuntu)
-      sudo /etc/init.d/nginx stop > /dev/null
-      ;;
-
-    opensuse)
-      sudo /sbin/service nginx stop > /dev/null
-      ;;
-  esac
-}
-
 case "$1" in
   letsencrypt:add)
     [[ -z $2 ]] && dokku_log_fail "Please specify an app to run the command on"
@@ -42,15 +10,13 @@ case "$1" in
     APP="$2"; DOMAIN="$3";
 
     mkdir -p "$DOKKU_ROOT/$APP/tls"
-    stop_nginx
     sudo docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             quay.io/letsencrypt/letsencrypt:latest --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory -d $DOMAIN auth
-    start_nginx
 
-    sudo cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$DOKKU_ROOT/$APP/tls/privkey.key"
-    sudo cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$DOKKU_ROOT/$APP/tls/fullchain.crt"
+    sudo cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$DOKKU_ROOT/$APP/tls/server.key"
+    sudo cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$DOKKU_ROOT/$APP/tls/server.crt"
     sudo chown -hR dokku:dokku "$DOKKU_ROOT/$APP/tls/"
     nginx_build_config $APP
     ;;
