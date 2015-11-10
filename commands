@@ -10,14 +10,13 @@ case "$1" in
     APP="$2"; DOMAIN="$3";
 
     mkdir -p "$DOKKU_ROOT/$APP/tls"
-    sudo docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
+    docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
             -v "/etc/letsencrypt:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             quay.io/letsencrypt/letsencrypt:latest --agree-dev-preview --server https://acme-v01.api.letsencrypt.org/directory -d $DOMAIN auth
 
-    sudo cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$DOKKU_ROOT/$APP/tls/server.key"
-    sudo cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$DOKKU_ROOT/$APP/tls/server.crt"
-    sudo chown -hR dokku:dokku "$DOKKU_ROOT/$APP/tls/"
+    cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" "$DOKKU_ROOT/$APP/tls/server.key"
+    cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" "$DOKKU_ROOT/$APP/tls/server.crt"
     nginx_build_config $APP
     ;;
   help | letsencrypt:help)

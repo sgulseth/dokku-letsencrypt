@@ -1,18 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
-case "$DOKKU_DISTRO" in
-  debian)
-    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /usr/sbin/invoke-rc.d nginx start, /usr/sbin/invoke-rc.d nginx stop" > /etc/sudoers.d/dokku-letsencrypt
-    ;;
+sudo mkdir -p /etc/letsencrypt
+sudo mkdir -p /var/lib/letsencrypt
 
-  ubuntu)
-    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /sbin/service nginx" > /etc/sudoers.d/dokku-letsencrypt
-    ;;
-
-  opensuse)
-    echo "%dokku ALL=(ALL) NOPASSWD:/usr/bin/docker, /bin/cp, /bin/chown, /sbin/service nginx start, /sbin/service nginx stop" > /etc/sudoers.d/dokku-letsencrypt
-    ;;
-esac
-
-chmod 0440 /etc/sudoers.d/dokku-letsencrypt
+sudo chown dokku:dokku /etc/letsencrypt
+sudo chown dokku:dokku /var/lib/letsencrypt
