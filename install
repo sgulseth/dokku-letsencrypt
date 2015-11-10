@@ -4,5 +4,5 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 sudo mkdir -p /etc/letsencrypt
 sudo mkdir -p /var/lib/letsencrypt
 
-sudo chown dokku:dokku /etc/letsencrypt
-sudo chown dokku:dokku /var/lib/letsencrypt
+sudo chown -hR dokku:dokku /etc/letsencrypt
+sudo chown -hR dokku:dokku /var/lib/letsencrypt
