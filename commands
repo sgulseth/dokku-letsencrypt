@@ -4,7 +4,7 @@ source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
 source "$PLUGIN_AVAILABLE_PATH/nginx-vhosts/functions"
 
 case "$1" in
-  letsencrypt:add)
+  letsencrypt:sign)
     [[ -z $2 ]] && dokku_log_fail "Please specify an app to run the command on"
     verify_app_name "$2"
     APP="$2"; DOMAIN="$3";
@@ -21,7 +21,7 @@ case "$1" in
     ;;
   help | letsencrypt:help)
     cat && cat<<EOF
-    letsencrypt:add <app> <domain>, generate certificate for <domain> and configure nginx with it"
+    letsencrypt:sign <app> <domain>, generate certificate for <domain> and configure nginx with it"
 EOF
     ;;
   *)

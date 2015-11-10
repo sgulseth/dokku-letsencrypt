@@ -6,7 +6,7 @@ Because letsencrypt is required to server a server on port 80/443, you will need
 # Usage (ubuntu)
 1. `sudo dokku plugin:install https://github.com/sgulseth/dokku-letsencrypt letsencrypt`
 2. `sudo service nginx stop`
-3. `dokku letsencrypt:add your-app-name example.com`
+3. `dokku letsencrypt:sign your-app-name example.com`
 4. `sudo service nginx start`
 5. Thats it
 
