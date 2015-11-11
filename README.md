@@ -1,7 +1,7 @@
 # Dokku Lets encrypt plugin
 *Warning, this plugin is not tested and only for available for development reasons - it's work in progress*
 
-Because letsencrypt is required to server a server on port 80/443, you will need to manually stop nginx before running this plugin.
+Because letsencrypt is required to start a server on port 80/443, you will need to manually stop nginx before running this plugin.
 
 # Usage (ubuntu)
 1. `sudo dokku plugin:install https://github.com/sgulseth/dokku-letsencrypt letsencrypt`
